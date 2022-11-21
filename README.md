@@ -1,6 +1,6 @@
 # What is motionEye.eo?
 
-motionEye.eo is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
+Fork motionEye.eo is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
 
 It's a fork of [ _motionEye_ ](https://github.com/motioneye-project/motioneye).
 
