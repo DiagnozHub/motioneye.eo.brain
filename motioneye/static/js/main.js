@@ -37,11 +37,11 @@ var qualifyURLElement;
 var cameraFrameRatios = [];
 
 
-    /* Object utilities */
+/* Object utilities */
 
 Object.keys = Object.keys || (function () {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
-    var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
+    var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
     var dontEnums = [
         'toString',
         'toLocaleString',
@@ -78,7 +78,7 @@ Object.keys = Object.keys || (function () {
 })();
 
 Object.values = function (obj) {
-    return Object.keys(obj).map(function (k) {return obj[k];});
+    return Object.keys(obj).map(function (k) { return obj[k]; });
 };
 
 Object.update = function (dest, source) {
@@ -92,7 +92,7 @@ Object.update = function (dest, source) {
 };
 
 
-    /* Array utilities */
+/* Array utilities */
 
 Array.prototype.indexOf = Array.prototype.indexOf || function (obj) {
     for (var i = 0; i < this.length; i++) {
@@ -179,7 +179,7 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
 };
 
 
-    /* String utilities */
+/* String utilities */
 
 String.prototype.startsWith = String.prototype.startsWith || function (str) {
     return (this.substr(0, str.length) === str);
@@ -228,7 +228,7 @@ String.prototype.format = function () {
 };
 
 
-    /* misc utilities */
+/* misc utilities */
 
 var sha1 = (function () {
     var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
@@ -245,7 +245,7 @@ var sha1 = (function () {
             M[i] = new Array(16);
             for (var j = 0; j < 16; j++) {
                 M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) |
-                (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
+                    (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
             }
         }
         M[N - 1][14] = Math.floor(((msg.length - 1) * 8) / P);
@@ -261,7 +261,7 @@ var sha1 = (function () {
         var a, b, c, d, e;
         for (i = 0; i < N; i++) {
             for (var t = 0; t < 16; t++) W[t] = M[i][t];
-            for (t = 16; t < 80; t++) W[t] = ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1);
+            for (t = 16; t < 80; t++) W[t] = ROTL(W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16], 1);
 
             a = H0; b = H1; c = H2; d = H3; e = H4;
 
@@ -285,7 +285,7 @@ var sha1 = (function () {
         return toHexStr(H0) + toHexStr(H1) + toHexStr(H2) + toHexStr(H3) + toHexStr(H4);
     }
 
-    function f(s, x, y, z)  {
+    function f(s, x, y, z) {
         switch (s) {
             case 0: return (x & y) ^ (~x & z);
             case 1: return x ^ y ^ z;
@@ -317,7 +317,7 @@ function splitUrl(url) {
 
     var parts = url.split('?');
     if (parts.length < 2 || parts[1].length === 0) {
-        return {baseUrl: parts[0], params: {}};
+        return { baseUrl: parts[0], params: {} };
     }
 
     var baseUrl = parts[0];
@@ -331,7 +331,7 @@ function splitUrl(url) {
         params[pair[0]] = pair[1];
     }
 
-    return {baseUrl: baseUrl, params: params};
+    return { baseUrl: baseUrl, params: params };
 }
 
 function qualifyUrl(url) {
@@ -364,10 +364,10 @@ function computeSignature(method, path, body) {
     path = '/' + path.substring(basePath.length);
 
     /* sort query arguments alphabetically */
-    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
-    query = query.filter(function (q) {return q.key !== '_signature';});
-    query.sortKey(function (q) {return q.key;});
-    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
+    query = Object.keys(query).map(function (key) { return { key: key, value: decodeURIComponent(query[key]) }; });
+    query = query.filter(function (q) { return q.key !== '_signature'; });
+    query.sortKey(function (q) { return q.key; });
+    query = query.map(function (q) { return q.key + '=' + encodeURIComponent(q.value); }).join('&');
     path = path + '?' + query;
     path = path.replace(signatureRegExp, '-');
     body = body && body.replace(signatureRegExp, '-');
@@ -471,7 +471,7 @@ function ajax(method, url, data, callback, error, timeout) {
                 /* Proxies may respond with custom non-JSON 403 documents,
                  * so that request.responseJSON causes an error.
                  * We hence respond with the hardcoded JSON here. */
-                return onResponse({prompt: true, error: "unauthorized"});
+                return onResponse({ prompt: true, error: "unauthorized" });
             }
 
             showErrorMessage();
@@ -535,12 +535,12 @@ function doLogout() {
 
 function isAuthCookiesSet() {
     var username = getCookie(USERNAME_COOKIE);
-    if(username == null || username == '') {
+    if (username == null || username == '') {
         return false;
     }
 
     var password = getCookie(PASSWORD_COOKIE);
-    if(password == null || password == '') {
+    if (password == null || password == '') {
         return false;
     }
 
@@ -557,7 +557,7 @@ function authorizeUpload() {
 }
 
 
-    /* UI */
+/* UI */
 
 function initUI() {
     /* checkboxes */
@@ -575,11 +575,11 @@ function initUI() {
                 if (parts.length < 2) {
                     parts.push(parts[0]);
                 }
-                return {value: Number(parts[0]), label: parts[1]};
+                return { value: Number(parts[0]), label: parts[1] };
             });
         }
         makeSlider($this, Number($tr.attr('min')), Number($tr.attr('max')),
-                Number($tr.attr('snap')), ticks, Number($tr.attr('ticksnum')), Number($tr.attr('decimals')), $tr.attr('unit'));
+            Number($tr.attr('snap')), ticks, Number($tr.attr('ticksnum')), Number($tr.attr('decimals')), $tr.attr('unit'));
     });
 
     /* progress bars */
@@ -594,7 +594,7 @@ function initUI() {
         var $this = $(this);
         var $tr = $this.parent().parent();
         makeNumberValidator($this, Number($tr.attr('min')), Number($tr.attr('max')),
-                Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
+            Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
     });
 
     /* time validators */
@@ -838,8 +838,8 @@ function initUI() {
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
         if (enabled) {
-            runAlertDialog(( i18n.gettext('Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo "') + folder +
-                    i18n.gettext('", ne nur tiuj alŝutitaj de motionEye!')));
+            runAlertDialog((i18n.gettext('Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo "') + folder +
+                i18n.gettext('", ne nur tiuj alŝutitaj de motionEye!')));
         }
     });
 
@@ -921,21 +921,21 @@ function initUI() {
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
             runAlertDialog((i18n.gettext('Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo "') + rootDir +
-                    i18n.gettext('", ne nur tiuj kreitaj de motionEye!')));
+                i18n.gettext('", ne nur tiuj kreitaj de motionEye!')));
         }
     });
 
     /* disable corresponding mask editor when the mask gets disabled */
     $('#motionMaskSwitch').change(function () {
-       if (!this.checked) {
+        if (!this.checked) {
             disableMaskEdit('motion');
-       }
+        }
     });
     $('#privacyMaskSwitch').change(function () {
         if (!this.checked) {
-             disableMaskEdit('privacy');
+            disableMaskEdit('privacy');
         }
-     });
+    });
 
     /* disable motion detection mask editor when mask type is no longer editable */
     $('#motionMaskTypeSelect').change(function () {
@@ -961,6 +961,11 @@ function initUI() {
     /* reboot button */
     $('#rebootButton').on('click', function () {
         doReboot();
+    });
+
+    /* reboot button */
+    $('#cpuButton').on('click', function () {
+        doCPU();
     });
 
     /* remove camera button */
@@ -1023,8 +1028,8 @@ function addVideoControl(name, min, max, step) {
 
     /* make name pretty */
     var title = name.replace(new RegExp('[^a-z0-9]', 'ig'), ' ');
-    title = title.replace (/\s(\w)/g, function (_, c) {
-        return c ? ' ' + c.toUpperCase () : ' ';
+    title = title.replace(/\s(\w)/g, function (_, c) {
+        return c ? ' ' + c.toUpperCase() : ' ';
     });
 
     title = title.substr(0, 1).toUpperCase() + title.substr(1);
@@ -1215,7 +1220,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
     var mouseDown = false;
     var currentState = false;
-    var elementsMatrix = Array.apply(null, Array(maskHeight)).map(function(){return []});
+    var elementsMatrix = Array.apply(null, Array(maskHeight)).map(function () { return [] });
 
     function matrixToMaskLines() {
         var maskLines = [];
@@ -1264,7 +1269,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
             maskLines.push(line);
         }
 
-        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).change();
+        $('#' + maskClass + 'MaskLinesEntry').val(maskLines.join(',')).change();
     }
 
     function handleMouseUp() {
@@ -1343,7 +1348,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
     /* use mask lines to initialize the element matrix */
     var line;
-    var maskLines = $('#'+maskClass+'MaskLinesEntry').val() ? $('#'+maskClass+'MaskLinesEntry').val().split(',').map(function (v) {return parseInt(v);}) : [];
+    var maskLines = $('#' + maskClass + 'MaskLinesEntry').val() ? $('#' + maskClass + 'MaskLinesEntry').val().split(',').map(function (v) { return parseInt(v); }) : [];
     maskLines = maskLines.slice(2);
 
     for (y = 0; y < ny; y++) {
@@ -1373,8 +1378,8 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
     var selectedCameraId = $('#cameraSelect').val();
     if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
-        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton').css('display', 'inline-block');
-        $('#'+maskClass+'MaskEditButton').css('display', 'none');
+        $('#' + maskClass + 'MaskSaveButton, #' + maskClass + 'MaskClearButton').css('display', 'inline-block');
+        $('#' + maskClass + 'MaskEditButton').css('display', 'none');
     }
 
     if (!overlayVisible) {
@@ -1389,18 +1394,18 @@ function disableMaskEdit(maskClass) {
         $('.edit-mask-button').css('display', 'inline-block');
         $('.save-mask-button, .clear-mask-button').css('display', 'none');
     } else {
-        if ($('#'+maskClass+'MaskSaveButton').css('display') !== 'none') {
+        if ($('#' + maskClass + 'MaskSaveButton').css('display') !== 'none') {
             /* only disable mask overlay if it is for the same mask class*/
             disableMaskOverlay();
         }
-        $('#'+maskClass+'MaskEditButton').css('display', 'inline-block');
-        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton').css('display', 'none');
+        $('#' + maskClass + 'MaskEditButton').css('display', 'inline-block');
+        $('#' + maskClass + 'MaskSaveButton, #' + maskClass + 'MaskClearButton').css('display', 'none');
     }
 }
 
 function disableMaskOverlay() {
     /* disable mask overlay on any camera */
-    var  cameraFrames = getCameraFrames().toArray().map(function (f) {return $(f);});
+    var cameraFrames = getCameraFrames().toArray().map(function (f) { return $(f); });
 
     cameraFrames.forEach(function (cameraFrame) {
         var overlayDiv = cameraFrame.find('div.camera-overlay');
@@ -1421,7 +1426,7 @@ function clearMask(cameraId) {
 }
 
 
-    /* settings */
+/* settings */
 
 function openSettings(cameraId) {
     if (cameraId != null) {
@@ -1457,8 +1462,8 @@ function closeSettings() {
     $('div.settings-top-bar').removeClass('open').addClass('closed');
 
     if (isSingleView()) {
-	    pageContainer.removeClass('single-cam-edit');
-	    $('div.header').addClass('single-cam');
+        pageContainer.removeClass('single-cam-edit');
+        $('div.header').addClass('single-cam');
     }
 
     updateLayout();
@@ -1470,7 +1475,7 @@ function isSettingsOpen() {
 
 function updateConfigUI() {
     var objs = $('tr.settings-item, div.settings-section-title, table.settings, ' +
-            'div.check-box.camera-config, div.check-box.main-config');
+        'div.check-box.camera-config, div.check-box.main-config');
 
     function markHideLogic() {
         this._hideLogic = true;
@@ -1489,7 +1494,7 @@ function updateConfigUI() {
 
     /* hide sliders that, for some reason, don't have a value */
     $('input.range').each(function () {
-        if  (this.value == '') {
+        if (this.value == '') {
             $(this).parents('tr:eq(0)').each(markHideLogic);
         }
     });
@@ -1846,13 +1851,13 @@ function dict2MainUi(dict) {
         var hideNull = (field === true) || (typeof field == 'string' && dict[field] == null);
 
         if (sectionDiv.length) { /* element is a section */
-            sectionDiv.find('div.check-box').each(function () {this._hideNull = hideNull;});
+            sectionDiv.find('div.check-box').each(function () { this._hideNull = hideNull; });
             if (hideNull) {
-                sectionDiv.find('input[type=checkbox]').each(function () {this.checked = true;});
+                sectionDiv.find('input[type=checkbox]').each(function () { this.checked = true; });
             }
         }
         else { /* element is a config option */
-            elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
+            elem.parents('tr:eq(0)').each(function () { this._hideNull = hideNull; });
         }
     }
 
@@ -1924,7 +1929,7 @@ function cameraUi2Dict() {
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
         'privacy_mask': $('#privacyMaskSwitch')[0].checked,
-        'privacy_mask_lines': $('#privacyMaskLinesEntry').val() ? $('#privacyMaskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
+        'privacy_mask_lines': $('#privacyMaskLinesEntry').val() ? $('#privacyMaskLinesEntry').val().split(',').map(function (l) { return parseInt(l); }) : [],
         'extra_options': $('#extraOptionsEntry').val().split(new RegExp('(\n)|(\r\n)|(\n\r)')).map(function (o) {
             if (!o) {
                 return null;
@@ -1945,7 +1950,7 @@ function cameraUi2Dict() {
             else {
                 return [parts[0], parts.slice(1).join(' ')];
             }
-        }).filter(function (e) {return e;}),
+        }).filter(function (e) { return e; }),
 
         /* file storage */
         'storage_device': $('#storageDeviceSelect').val(),
@@ -2031,7 +2036,7 @@ function cameraUi2Dict() {
         'motion_mask': $('#motionMaskSwitch')[0].checked,
         'motion_mask_type': $('#motionMaskTypeSelect').val(),
         'smart_mask_sluggishness': $('#smartMaskSluggishnessSlider').val(),
-        'motion_mask_lines': $('#motionMaskLinesEntry').val() ? $('#motionMaskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
+        'motion_mask_lines': $('#motionMaskLinesEntry').val() ? $('#motionMaskLinesEntry').val().split(',').map(function (l) { return parseInt(l); }) : [],
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'create_debug_media': $('#createDebugMediaSwitch')[0].checked,
 
@@ -2063,7 +2068,7 @@ function cameraUi2Dict() {
         /* working schedule */
         'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
         'monday_from': $('#mondayEnabledSwitch')[0].checked ? $('#mondayFromEntry').val() : '',
-        'monday_to':$('#mondayEnabledSwitch')[0].checked ? $('#mondayToEntry').val() : '',
+        'monday_to': $('#mondayEnabledSwitch')[0].checked ? $('#mondayToEntry').val() : '',
         'tuesday_from': $('#tuesdayEnabledSwitch')[0].checked ? $('#tuesdayFromEntry').val() : '',
         'tuesday_to': $('#tuesdayEnabledSwitch')[0].checked ? $('#tuesdayToEntry').val() : '',
         'wednesday_from': $('#wednesdayEnabledSwitch')[0].checked ? $('#wednesdayFromEntry').val() : '',
@@ -2071,7 +2076,7 @@ function cameraUi2Dict() {
         'thursday_from': $('#thursdayEnabledSwitch')[0].checked ? $('#thursdayFromEntry').val() : '',
         'thursday_to': $('#thursdayEnabledSwitch')[0].checked ? $('#thursdayToEntry').val() : '',
         'friday_from': $('#fridayEnabledSwitch')[0].checked ? $('#fridayFromEntry').val() : '',
-        'friday_to': $('#fridayEnabledSwitch')[0].checked ? $('#fridayToEntry').val() :'',
+        'friday_to': $('#fridayEnabledSwitch')[0].checked ? $('#fridayToEntry').val() : '',
         'saturday_from': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayFromEntry').val() : '',
         'saturday_to': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayToEntry').val() : '',
         'sunday_from': $('#sundayEnabledSwitch')[0].checked ? $('#sundayFromEntry').val() : '',
@@ -2178,13 +2183,13 @@ function dict2CameraUi(dict) {
         var hideNull = (field === true) || (typeof field == 'string' && dict[field] == null);
 
         if (sectionDiv.length) { /* element is a section */
-            sectionDiv.find('div.check-box').each(function () {this._hideNull = hideNull;});
+            sectionDiv.find('div.check-box').each(function () { this._hideNull = hideNull; });
             if (hideNull) {
-                sectionDiv.find('input[type=checkbox]').each(function () {this.checked = true;});
+                sectionDiv.find('input[type=checkbox]').each(function () { this.checked = true; });
             }
         }
         else { /* element is a config option */
-            elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
+            elem.parents('tr:eq(0)').each(function () { this._hideNull = hideNull; });
         }
     }
 
@@ -2225,7 +2230,7 @@ function dict2CameraUi(dict) {
         dict['available_resolutions'].forEach(function (resolution) {
             $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
         });
-        $('#resolutionSelect').append('<option value="custom">'+i18n.gettext("Propra")+'</option>');
+        $('#resolutionSelect').append('<option value="custom">' + i18n.gettext("Propra") + '</option>');
     }
     $('#resolutionSelect').val(dict['resolution']); markHideIfNull('available_resolutions', 'resolutionSelect');
     if (dict['resolution']) {
@@ -2244,7 +2249,7 @@ function dict2CameraUi(dict) {
     /* file storage */
     $('#storageDeviceSelect').empty();
     dict['available_disks'] = dict['available_disks'] || [];
-    var storageDeviceOptions = {'network-share': true};
+    var storageDeviceOptions = { 'network-share': true };
     dict['available_disks'].forEach(function (disk) {
         disk.partitions.forEach(function (partition) {
             var target = partition.target.replaceAll('/', '-');
@@ -2263,9 +2268,9 @@ function dict2CameraUi(dict) {
             $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
         });
     });
-    $('#storageDeviceSelect').append('<option value="custom-path">'+i18n.gettext("Propra dosierindiko")+'</option>');
+    $('#storageDeviceSelect').append('<option value="custom-path">' + i18n.gettext("Propra dosierindiko") + '</option>');
     if (dict['smb_shares']) {
-        $('#storageDeviceSelect').append('<option value="network-share">'+i18n.gettext("Retan kunlokon")+'</option>');
+        $('#storageDeviceSelect').append('<option value="network-share">' + i18n.gettext("Retan kunlokon") + '</option>');
     }
 
     if (storageDeviceOptions[dict['storage_device']]) {
@@ -2288,7 +2293,7 @@ function dict2CameraUi(dict) {
 
     $('#diskUsageProgressBar').each(function () {
         this.setProgress(percent);
-        this.setText((dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
+        this.setText((dict['disk_used'] / 1073741824).toFixed(1) + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
     }); markHideIfNull('disk_used', 'diskUsageProgressBar');
 
     $('#uploadEnabledSwitch')[0].checked = dict['upload_enabled']; markHideIfNull('upload_enabled', 'uploadEnabledSwitch');
@@ -2549,7 +2554,7 @@ function dict2CameraUi(dict) {
 }
 
 
-    /* progress */
+/* progress */
 
 function beginProgress(cameraIds) {
     if (inProgress) {
@@ -2637,7 +2642,7 @@ function uploadFile(path, input, callback) {
 }
 
 
-    /* apply button */
+/* apply button */
 
 function showApply() {
     var applyButton = $('#applyButton');
@@ -2794,8 +2799,8 @@ function doShutDown() {
                     function () {
                         showModalDialog(i18n.gettext("Malŝaltita"));
                         setTimeout(function () {
-                            $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
-                        },100);
+                            $('div.modal-glass').animate({ 'opacity': '1', 'background-color': '#212121' }, 200);
+                        }, 100);
                     },
                     10000 /* timeout = 10s */
                 );
@@ -2804,6 +2809,23 @@ function doShutDown() {
             checkServer();
         }, 10);
     });
+}
+
+function doCPU() {
+    //alert(basePath + 'cpu/usage/');
+
+    const strCPU = 'CPU: '
+
+    ajax('GET', basePath + 'cpu/usage/', null,
+        function (data) {
+            $("#cpuButton").text(strCPU + data.cpu_usage + '%')
+        },
+        function () {
+            $("#cpuButton").text(strCPU + '...' + '%')
+        },
+        5 * 1000 /* timeout = 5s */
+    );
+
 }
 
 function doReboot() {
@@ -2929,12 +2951,12 @@ function doBackup() {
 
 function doRestore() {
     var content =
-            $('<table class="restore-dialog">' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Rezerva dosiero")+'</span></td>' +
-                    '<td class="dialog-item-value"><form><input type="file" class="styled" id="fileInput"></form></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("La rezervan dosieron, kiun vi antaŭe elŝutis.")+'">?</span></td>' +
-                '</tr>' +
+        $('<table class="restore-dialog">' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Rezerva dosiero") + '</span></td>' +
+            '<td class="dialog-item-value"><form><input type="file" class="styled" id="fileInput"></form></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("La rezervan dosieron, kiun vi antaŭe elŝutis.") + '">?</span></td>' +
+            '</tr>' +
             '</table>');
 
     /* collect ui widgets */
@@ -2974,7 +2996,7 @@ function doRestore() {
             refreshInterval = 1000000;
 
             setTimeout(function () {
-                showModalDialog('<div style="text-align: center;"><span>'+i18n.gettext("Restaŭriganta agordon ...")+'</span><div class="modal-progress"></div></div>');
+                showModalDialog('<div style="text-align: center;"><span>' + i18n.gettext("Restaŭriganta agordon ...") + '</span><div class="modal-progress"></div></div>');
                 uploadFile(basePath + 'config/restore/', fileInput, function (data) {
                     if (data && data.ok) {
                         var count = 0;
@@ -3021,7 +3043,7 @@ function doRestore() {
 function doTestUpload() {
     var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry');
     var valid = true;
-    q.each(function() {
+    q.each(function () {
         this.validate();
         if (this.invalid) {
             valid = false;
@@ -3068,7 +3090,7 @@ function doTestUpload() {
             showErrorMessage(i18n.gettext("Aliri la alŝutan servon malsukcesis: ") + data.error + '!');
         }
         else {
-            showPopupMessage(i18n.gettext("Aliri la alŝutan servon sukcesis!")+data, 'info');
+            showPopupMessage(i18n.gettext("Aliri la alŝutan servon sukcesis!") + data, 'info');
         }
     });
 }
@@ -3076,7 +3098,7 @@ function doTestUpload() {
 function doTestEmail() {
     var q = $('#emailAddressesEntry, #smtpServerEntry, #smtpPortEntry');
     var valid = true;
-    q.each(function() {
+    q.each(function () {
         this.validate();
         if (this.invalid) {
             valid = false;
@@ -3116,7 +3138,7 @@ function doTestEmail() {
 function doTestTelegram() {
     var q = $('#telegramAPIEntry, #telegramCIDEntry');
     var valid = true;
-    q.each(function() {
+    q.each(function () {
         this.validate();
         if (this.invalid) {
             valid = false;
@@ -3151,7 +3173,7 @@ function doTestTelegram() {
 function doTestNetworkShare() {
     var q = $('#networkServerEntry, #networkShareNameEntry, #rootDirectoryEntry');
     var valid = true;
-    q.each(function() {
+    q.each(function () {
         this.validate();
         if (this.invalid) {
             valid = false;
@@ -3223,17 +3245,17 @@ function doDeleteFile(path, callback) {
         });
 
         return false;
-    }, {stack: true});
+    }, { stack: true });
 }
 
 function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
     var msg;
     if (groupKey) {
         if (mediaType == 'picture') {
-            msg = i18n.gettext('Ĉu vere forigi ĉiujn bildojn de "%(group)s"?').format({group: groupKey});
+            msg = i18n.gettext('Ĉu vere forigi ĉiujn bildojn de "%(group)s"?').format({ group: groupKey });
         }
         else {
-            msg = i18n.gettext('Ĉu vere forigi ĉiujn filmojn de "%(group)s"?').format({group: groupKey});
+            msg = i18n.gettext('Ĉu vere forigi ĉiujn filmojn de "%(group)s"?').format({ group: groupKey });
         }
     }
     else {
@@ -3265,7 +3287,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
         });
 
         return false;
-    }, {stack: true});
+    }, { stack: true });
 }
 
 function doAction(cameraId, action, callback) {
@@ -3316,7 +3338,7 @@ function showEmbedUrl() {
 }
 
 
-    /* fetch & push */
+/* fetch & push */
 
 function fetchCurrentConfig(onFetch) {
     function fetchCameraList() {
@@ -3324,7 +3346,7 @@ function fetchCurrentConfig(onFetch) {
         ajax('GET', basePath + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
-                data = {cameras: []};
+                data = { cameras: [] };
                 if (onFetch) {
                     onFetch(null);
                 }
@@ -3338,7 +3360,7 @@ function fetchCurrentConfig(onFetch) {
             var query = splitUrl().params;
             if (query.camera_ids) {
                 var cameraIds = query.camera_ids.split(',');
-                cameras = cameras.filter(function (c){
+                cameras = cameras.filter(function (c) {
                     return cameraIds.indexOf(String(c.id)) >= 0;
                 });
             }
@@ -3352,10 +3374,10 @@ function fetchCurrentConfig(onFetch) {
                 }
 
                 if (!query.camera_ids) {
-                    cameraSelect.append('<option value="add">'+i18n.gettext("aldonadi kameraon...")+'</option>');
+                    cameraSelect.append('<option value="add">' + i18n.gettext("aldonadi kameraon...") + '</option>');
                 }
 
-                var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
+                var enabledCameras = cameras.filter(function (camera) { return camera['enabled']; });
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
                     cameraSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
                     fetchCurrentCameraConfig(onFetch);
@@ -3390,7 +3412,7 @@ function fetchCurrentConfig(onFetch) {
 
             var mainLoadingProgressImg = $('img.main-loading-progress');
             if (mainLoadingProgressImg.length) {
-                mainLoadingProgressImg.animate({'opacity': 0}, 200, function () {
+                mainLoadingProgressImg.animate({ 'opacity': 0 }, 200, function () {
                     recreateCameraFrames(cameras);
                     mainLoadingProgressImg.remove();
                 });
@@ -3535,7 +3557,7 @@ function getCameraIds() {
 }
 
 
-    /* dialogs */
+/* dialogs */
 
 function runAlertDialog(message, onOk, options) {
     var params = {
@@ -3571,26 +3593,26 @@ function runLoginDialog(retry) {
     $('body').append(tempFrame);
 
     var form =
-            $('<form action="' + basePath + 'login/" target="temp" method="POST"><table class="login-dialog">' +
-                '<tr>' +
-                    '<td class="login-dialog-error" colspan="100"></td>' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Uzantnomo") + '</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Pasvorto") + '</span></td>' +
-                    '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
-                    '<input type="submit" style="display: none;" name="login" value="login">' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Memoru min")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
-                '</tr>' +
+        $('<form action="' + basePath + 'login/" target="temp" method="POST"><table class="login-dialog">' +
+            '<tr>' +
+            '<td class="login-dialog-error" colspan="100"></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">'
+            + i18n.gettext("Uzantnomo") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">'
+            + i18n.gettext("Pasvorto") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
+            '<input type="submit" style="display: none;" name="login" value="login">' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">'
+            + i18n.gettext("Memoru min") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
+            '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
@@ -3609,28 +3631,32 @@ function runLoginDialog(retry) {
         title: i18n.gettext('Ensaluti'),
         content: form,
         buttons: [
-            {caption: i18n.gettext('Nuligi'), isCancel: true, click: function () {
-                tempFrame.remove();
-            }},
-            {caption: i18n.gettext('Ensaluti'), isDefault: true, click: function () {
-                window.username = usernameEntry.val();
-                window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
-                window._loginDialogSubmitted = true;
-
-                if (rememberCheck[0].checked) {
-                    setCookie(USERNAME_COOKIE, window.username, /* days = */ 3650);
-                    setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
-                }
-
-                form.submit();
-                setTimeout(function () {
+            {
+                caption: i18n.gettext('Nuligi'), isCancel: true, click: function () {
                     tempFrame.remove();
-                }, 5000);
-
-                if (retry) {
-                    retry();
                 }
-            }}
+            },
+            {
+                caption: i18n.gettext('Ensaluti'), isDefault: true, click: function () {
+                    window.username = usernameEntry.val();
+                    window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
+                    window._loginDialogSubmitted = true;
+
+                    if (rememberCheck[0].checked) {
+                        setCookie(USERNAME_COOKIE, window.username, /* days = */ 3650);
+                        setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
+                    }
+
+                    form.submit();
+                    setTimeout(function () {
+                        tempFrame.remove();
+                    }, 5000);
+
+                    if (retry) {
+                        retry();
+                    }
+                }
+            }
         ]
     };
 
@@ -3645,7 +3671,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     var video_container = $('<video id="mPlayer" class="picture-dialog-content" controls="true">');
     var video_loader = $('<img>');
-    video_container.on('error', function(err) {
+    video_container.on('error', function (err) {
         var msg = '';
 
         /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
@@ -3671,20 +3697,20 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     video_container.hide();
     content.append(video_container);
 
-    var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="'+i18n.gettext("antaŭa bildo")+'"></div>');
+    var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="' + i18n.gettext("antaŭa bildo") + '"></div>');
     content.append(prevArrow);
 
     var playButtonContainer = $('<div class="picture-dialog-playbuttons"></div>');
 
-      var playButton = $('<div class="picture-dialog-play button mouse-effect" title="'+i18n.gettext("ludi")+'"></div>');
-      playButtonContainer.append(playButton);
+    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="' + i18n.gettext("ludi") + '"></div>');
+    playButtonContainer.append(playButton);
 
-      var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="'+i18n.gettext("ludi * 5 kaj enĉenigi")+'"></div>');
-      playButtonContainer.append(timelapseButton);
+    var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="' + i18n.gettext("ludi * 5 kaj enĉenigi") + '"></div>');
+    playButtonContainer.append(timelapseButton);
 
     content.append(playButtonContainer);
 
-    var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="'+i18n.gettext("sekva bildo")+'"></div>');
+    var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="' + i18n.gettext("sekva bildo") + '"></div>');
     content.append(nextArrow);
     var progressImg = $('<div class="picture-dialog-progress">');
 
@@ -3716,23 +3742,23 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
         if (playable) {
             video_loader.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
-            playButton.on('click', function() {
+            playButton.on('click', function () {
                 video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
                 video_container.show();
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
                 playButton.hide();
                 timelapseButton.hide();
-                video_container.on('canplay', function() {
-                   video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+                video_container.on('canplay', function () {
+                    video_container.get(0).play();  /* Automatically play the video once the browser is ready */
                 });
             });
 
-            timelapseButton.on('click', function() {
+            timelapseButton.on('click', function () {
                 playButton.trigger('click');
                 mPlayer.playbackRate = 5;
-                video_container.on('ended', function() {
-                    if( pos > 0 ) {
+                video_container.on('ended', function () {
+                    if (pos > 0) {
                         nextArrow.trigger('click');
                         playButton.trigger('click');
                         mPlayer.playbackRate = 5;
@@ -3754,11 +3780,11 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
             if (sizeWidth < sizeHeight) {
                 img.width(width);
-                video_container.width(width).height(parseInt(width/aspectRatio));
+                video_container.width(width).height(parseInt(width / aspectRatio));
             }
             else {
                 img.height(height);
-                video_container.width(parseInt(height*aspectRatio)).height(height);
+                video_container.width(parseInt(height * aspectRatio)).height(height);
             }
             updateModalDialogPosition();
             prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');
@@ -3807,36 +3833,38 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     img.on('load', updateModalDialogPosition);
 
     var buttons = [
-            {caption: i18n.gettext("Fermi")},
-            {caption: i18n.gettext("Elŝuti"), isDefault: true, click: function () {
+        { caption: i18n.gettext("Fermi") },
+        {
+            caption: i18n.gettext("Elŝuti"), isDefault: true, click: function () {
                 var entry = entries[pos];
                 downloadFile(mediaType + '/' + entry.cameraId + '/download' + entry.path);
 
                 return false;
-            }}];
+            }
+        }];
     if (isAdmin()) {
         buttons.push({
-                caption: i18n.gettext("Forigi"),
-                isDefault: false,
-                className: 'delete',
-                click: function () {
-                    var entry = entries[pos];
-                    var callback = function() {
-                        onDelete(entry);
-                        if (entries.length > 0) {
-                            if (pos > entries.length -1) {
-                                pos--;
-                            }
-                            updatePicture();
-                        } else {
-                            hideModalDialog(); /* Close dialog after deleting the only remaining entry */
+            caption: i18n.gettext("Forigi"),
+            isDefault: false,
+            className: 'delete',
+            click: function () {
+                var entry = entries[pos];
+                var callback = function () {
+                    onDelete(entry);
+                    if (entries.length > 0) {
+                        if (pos > entries.length - 1) {
+                            pos--;
                         }
+                        updatePicture();
+                    } else {
+                        hideModalDialog(); /* Close dialog after deleting the only remaining entry */
                     }
-                    deleteFile(mediaType + '/' + entry.cameraId + '/delete' + entry.path, callback);
-
-                    return false;
                 }
-            });
+                deleteFile(mediaType + '/' + entry.cameraId + '/delete' + entry.path, callback);
+
+                return false;
+            }
+        });
     }
 
     runModalDialog({
@@ -3858,44 +3886,44 @@ function runAddCameraDialog() {
     }
 
     var content =
-            $('<table class="add-camera-dialog">' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao tipo")+'</span></td>' +
-                    '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        (hasLocalCamSupport ? '<option value="v4l2">'+i18n.gettext("Loka V4L2-kamerao")+'</option>' : '') +
-                        (hasLocalCamSupport ? '<option value="mmal">'+i18n.gettext("Loka MMAL-kamerao")+'</option>' : '') +
-                        (hasNetCamSupport ? '<option value="netcam">'+i18n.gettext("Reta kamerao")+'</option>' : '') +
-                        '<option value="motioneye">'+i18n.gettext("Fora motionEye kamerao")+'</option>' +
-                        '<option value="mjpeg">'+i18n.gettext("Simpla MJPEG-kamerao")+'</option>' +
-                    '</select></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("la speco de kamerao, kiun vi volas aldoni")+'">?</span></td>' +
-                '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("URL")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="'+i18n.gettext("http://ekzemplo.com:8765/cams/...")+'"></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)")+'">?</span></td>' +
-                '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Uzantnomo")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="'+i18n.gettext("uzantnomo...")+'"></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("la uzantnomo por la URL, se bezonata (ekz. administranto)")+'">?</span></td>' +
-                '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Pasvorto")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="'+i18n.gettext("pasvorto...")+'"></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("la pasvorto por la URL, se bezonata")+'">?</span></td>' +
-                '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao")+'</span></td>' +
-                    '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("la kameraon, kiun vi volas aldoni")+'">?</span></td>' +
-                '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
-                    '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
-                '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
-                    '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
-                '</tr>' +
+        $('<table class="add-camera-dialog">' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Kamerao tipo") + '</span></td>' +
+            '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
+            (hasLocalCamSupport ? '<option value="v4l2">' + i18n.gettext("Loka V4L2-kamerao") + '</option>' : '') +
+            (hasLocalCamSupport ? '<option value="mmal">' + i18n.gettext("Loka MMAL-kamerao") + '</option>' : '') +
+            (hasNetCamSupport ? '<option value="netcam">' + i18n.gettext("Reta kamerao") + '</option>' : '') +
+            '<option value="motioneye">' + i18n.gettext("Fora motionEye kamerao") + '</option>' +
+            '<option value="mjpeg">' + i18n.gettext("Simpla MJPEG-kamerao") + '</option>' +
+            '</select></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("la speco de kamerao, kiun vi volas aldoni") + '">?</span></td>' +
+            '</tr>' +
+            '<tr class="motioneye netcam mjpeg">' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("URL") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="' + i18n.gettext("http://ekzemplo.com:8765/cams/...") + '"></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)") + '">?</span></td>' +
+            '</tr>' +
+            '<tr class="motioneye netcam mjpeg">' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Uzantnomo") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="' + i18n.gettext("uzantnomo...") + '"></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("la uzantnomo por la URL, se bezonata (ekz. administranto)") + '">?</span></td>' +
+            '</tr>' +
+            '<tr class="motioneye netcam mjpeg">' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Pasvorto") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="' + i18n.gettext("pasvorto...") + '"></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("la pasvorto por la URL, se bezonata") + '">?</span></td>' +
+            '</tr>' +
+            '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Kamerao") + '</span></td>' +
+            '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("la kameraon, kiun vi volas aldoni") + '">?</span></td>' +
+            '</tr>' +
+            '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
+            '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
+            '</tr>' +
+            '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
+            '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
+            '</tr>' +
             '</table>');
 
     /* collect ui widgets */
@@ -3924,7 +3952,7 @@ function runAddCameraDialog() {
             usernameEntry.val('admin');
             usernameEntry.attr('readonly', 'readonly');
             addCameraInfo.html(
-                    i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
+                i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
         }
         else if (typeSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
@@ -3939,12 +3967,12 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
+                i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
+                i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
         }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
@@ -3959,12 +3987,12 @@ function runAddCameraDialog() {
 
             content.find('tr.mjpeg').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
+                i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
         }
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
+                i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
         }
 
         updateModalDialogPosition();
@@ -4184,34 +4212,34 @@ function runAddCameraDialog() {
 
 function runTimelapseDialog(cameraId, groupKey, group) {
     var content =
-            $('<table class="timelapse-dialog">' +
-                '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Grupo")+'</span></td>' +
-                    '<td class="dialog-item-value">' + groupKey + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Inkluzivi foton prenitan ĉiun")+'</span></td>' +
-                    '<td class="dialog-item-value">' +
-                        '<select class="styled timelapse" id="intervalSelect">' +
-                            '<option value="1">'+i18n.gettext("sekundo")+'</option>' +
-                            '<option value="5">'+i18n.gettext("5 sekundoj")+'</option>' +
-                            '<option value="10">'+i18n.gettext("10 sekundoj")+'</option>' +
-                            '<option value="30">'+i18n.gettext("30 sekundoj")+'</option>' +
-                            '<option value="60">'+i18n.gettext("minuto")+'</option>' +
-                            '<option value="300">'+i18n.gettext("5 minutoj")+'</option>' +
-                            '<option value="600">'+i18n.gettext("10 minutoj")+'</option>' +
-                            '<option value="1800">'+i18n.gettext("30 minutoj")+'</option>' +
-                            '<option value="3600">'+i18n.gettext("horo")+'</option>' +
-                        '</select>' +
-                    '</td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("Elektu la intervalon de tempo inter du elektitaj bildoj.")+'">?</span></td>' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Filmo framfrekvenco")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled range" id="framerateSlider"></td>' +
-                    '<td><span class="help-mark" title="'+i18n.gettext("Elektu kiom rapide vi volas ke la akselita video estu.")+'">?</span></td>' +
-                '</tr>' +
+        $('<table class="timelapse-dialog">' +
+            '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Grupo") + '</span></td>' +
+            '<td class="dialog-item-value">' + groupKey + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Inkluzivi foton prenitan ĉiun") + '</span></td>' +
+            '<td class="dialog-item-value">' +
+            '<select class="styled timelapse" id="intervalSelect">' +
+            '<option value="1">' + i18n.gettext("sekundo") + '</option>' +
+            '<option value="5">' + i18n.gettext("5 sekundoj") + '</option>' +
+            '<option value="10">' + i18n.gettext("10 sekundoj") + '</option>' +
+            '<option value="30">' + i18n.gettext("30 sekundoj") + '</option>' +
+            '<option value="60">' + i18n.gettext("minuto") + '</option>' +
+            '<option value="300">' + i18n.gettext("5 minutoj") + '</option>' +
+            '<option value="600">' + i18n.gettext("10 minutoj") + '</option>' +
+            '<option value="1800">' + i18n.gettext("30 minutoj") + '</option>' +
+            '<option value="3600">' + i18n.gettext("horo") + '</option>' +
+            '</select>' +
+            '</td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("Elektu la intervalon de tempo inter du elektitaj bildoj.") + '">?</span></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Filmo framfrekvenco") + '</span></td>' +
+            '<td class="dialog-item-value"><input type="text" class="styled range" id="framerateSlider"></td>' +
+            '<td><span class="help-mark" title="' + i18n.gettext("Elektu kiom rapide vi volas ke la akselita video estu.") + '">?</span></td>' +
+            '</tr>' +
             '</table>');
 
     var intervalSelect = content.find('#intervalSelect');
@@ -4224,16 +4252,16 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     }
 
     makeSlider(framerateSlider, 1, 100, 0, [
-        {value: 1, label: '1'},
-        {value: 20, label: '20'},
-        {value: 40, label: '40'},
-        {value: 60, label: '60'},
-        {value: 80, label: '80'},
-        {value: 100, label: '100'}
+        { value: 1, label: '1' },
+        { value: 20, label: '20' },
+        { value: 40, label: '40' },
+        { value: 60, label: '60' },
+        { value: 80, label: '80' },
+        { value: 100, label: '100' }
     ], null, 0);
 
     intervalSelect.val(60);
-    framerateSlider.val(20).each(function () {this.update()});
+    framerateSlider.val(20).each(function () { this.update() });
 
     runModalDialog({
         title: i18n.gettext("Krei akselita video"),
@@ -4252,7 +4280,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
             });
 
             var url = basePath + 'picture/' + cameraId + '/timelapse/' + groupKey + '/';
-            var data = {interval: intervalSelect.val(), framerate: framerateSlider.val()};
+            var data = { interval: intervalSelect.val(), framerate: framerateSlider.val() };
             var first = true;
 
             function checkTimelapse() {
@@ -4369,10 +4397,10 @@ function runMediaDialog(cameraId, mediaType) {
                     entryDiv.append(previewImg);
                     previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
 
-                    var downloadButton = $('<div class="media-list-download-button button">'+i18n.gettext("Elŝuti")+'</div>');
+                    var downloadButton = $('<div class="media-list-download-button button">' + i18n.gettext("Elŝuti") + '</div>');
                     entryDiv.append(downloadButton);
 
-                    var deleteButton = $('<div class="media-list-delete-button button">'+i18n.gettext("Forigi")+'</div>');
+                    var deleteButton = $('<div class="media-list-delete-button button">' + i18n.gettext("Forigi") + '</div>');
                     if (isAdmin()) {
                         entryDiv.append(deleteButton);
                     }
@@ -4414,7 +4442,7 @@ function runMediaDialog(cameraId, mediaType) {
 
                     entryDiv.on('click', function () {
                         var pos = entries.indexOf(entry);
-                        var onDelete = function(deletedEntry) {
+                        var onDelete = function (deletedEntry) {
                             var pos = entries.indexOf(deletedEntry);
                             if (pos >= 0) {
                                 entries.splice(pos, 1); /* remove entry from group */
@@ -4477,26 +4505,26 @@ function runMediaDialog(cameraId, mediaType) {
             });
 
             /* assign details to entries */
-                entries.forEach(function (entry) {
-                    var media = mediaListByName[entry.name];
-                    if (media) {
-                        entry.mimeType = media.mimeType;
-                        entry.momentStr = media.momentStr;
-                        entry.momentStrShort = media.momentStrShort;
-                        entry.sizeStr = media.sizeStr;
-                        entry.timestamp = media.timestamp;
-                    }
-                });
+            entries.forEach(function (entry) {
+                var media = mediaListByName[entry.name];
+                if (media) {
+                    entry.mimeType = media.mimeType;
+                    entry.momentStr = media.momentStr;
+                    entry.momentStrShort = media.momentStrShort;
+                    entry.sizeStr = media.sizeStr;
+                    entry.timestamp = media.timestamp;
+                }
+            });
 
-                /* sort the entries by timestamp */
-            entries.sortKey(function (e) {return e.timestamp || e.name;}, true);
+            /* sort the entries by timestamp */
+            entries.sortKey(function (e) { return e.timestamp || e.name; }, true);
 
             addEntries();
         });
     }
 
     if (mediaType == 'picture') {
-        var zippedButton = $('<div class="media-dialog-button">'+i18n.gettext("Zipitaj")+'</div>');
+        var zippedButton = $('<div class="media-dialog-button">' + i18n.gettext("Zipitaj") + '</div>');
         buttonsDiv.append(zippedButton);
 
         zippedButton.on('click', function () {
@@ -4505,7 +4533,7 @@ function runMediaDialog(cameraId, mediaType) {
             }
         });
 
-        var timelapseButton = $('<div class="media-dialog-button">'+i18n.gettext("Akselita video")+'</div>');
+        var timelapseButton = $('<div class="media-dialog-button">' + i18n.gettext("Akselita video") + '</div>');
         buttonsDiv.append(timelapseButton);
 
         timelapseButton.on('click', function () {
@@ -4516,7 +4544,7 @@ function runMediaDialog(cameraId, mediaType) {
     }
 
     if (isAdmin()) {
-        var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">'+i18n.gettext("Forigi ĉiujn")+'</div>');
+        var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">' + i18n.gettext("Forigi ĉiujn") + '</div>');
         buttonsDiv.append(deleteAllButton);
 
         deleteAllButton.on('click', function () {
@@ -4707,65 +4735,65 @@ function runMediaDialog(cameraId, mediaType) {
 }
 
 
-    /* camera frames */
+/* camera frames */
 
 function addCameraFrameUi(cameraConfig) {
     var cameraId = cameraConfig.id;
 
     var cameraFrameDiv = $(
-            '<div class="camera-frame">' +
-                '<div class="camera-container">' +
-                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg" width=16 height=16></div>' +
-                    '<img class="camera">' +
-                    '<div class="camera-progress"><img class="camera-progress"></div>' +
-                '</div>' +
-                '<div class="camera-overlay">' +
-                    '<div class="camera-overlay-top">' +
-                        '<div class="camera-name"><span class="camera-name"></span></div>' +
-                        '<div class="camera-top-buttons">' +
-                            '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="camera-overlay-mask"></div>' +
-                    '<div class="camera-overlay-bottom">' +
-                        '<div class="camera-info">' +
-                            '<span class="camera-info" title="streaming/capture frame rate"></span>' +
-                        '</div>' +
-                        '<div class="camera-action-buttons">' +
-                        '<div class="camera-action-buttons-wrapper">' +
-                                '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>');
+        '<div class="camera-frame">' +
+        '<div class="camera-container">' +
+        '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg" width=16 height=16></div>' +
+        '<img class="camera">' +
+        '<div class="camera-progress"><img class="camera-progress"></div>' +
+        '</div>' +
+        '<div class="camera-overlay">' +
+        '<div class="camera-overlay-top">' +
+        '<div class="camera-name"><span class="camera-name"></span></div>' +
+        '<div class="camera-top-buttons">' +
+        '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") + '"></div>' +
+        '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") + '"></div>' +
+        '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") + '"></div>' +
+        '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
+        '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
+        '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="camera-overlay-mask"></div>' +
+        '<div class="camera-overlay-bottom">' +
+        '<div class="camera-info">' +
+        '<span class="camera-info" title="streaming/capture frame rate"></span>' +
+        '</div>' +
+        '<div class="camera-action-buttons">' +
+        '<div class="camera-action-buttons-wrapper">' +
+        '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
+        '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
+        '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
+        '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
+        '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
+        '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
+        '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
+        '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
+        '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
+        '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
+        '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
+        '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
+        '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
+        '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
+        '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>');
 
     var nameSpan = cameraFrameDiv.find('span.camera-name');
 
@@ -4844,7 +4872,7 @@ function addCameraFrameUi(cameraConfig) {
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
     var cameraFrames = getPageContainer().find('div.camera-frame');
-    var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
+    var cameraIds = cameraFrames.map(function () { return parseInt(this.id.substring(6)); });
     cameraIds.sort();
 
     var index = 0; /* find the first position that is greater than the current camera id */
@@ -4856,12 +4884,12 @@ function addCameraFrameUi(cameraConfig) {
         var beforeCameraFrame = getPageContainer().find('div.camera-frame#camera' + cameraIds[index]);
         cameraFrameDiv.insertAfter(beforeCameraFrame);
     }
-    else  {
+    else {
         getPageContainer().append(cameraFrameDiv);
     }
 
     /* fade in */
-    cameraFrameDiv.animate({'opacity': 1}, 100);
+    cameraFrameDiv.animate({ 'opacity': 1 }, 100);
 
     /* add the top buttons handlers */
     configureButton.on('click', function () {
@@ -5089,14 +5117,14 @@ function addCameraFrameUi(cameraConfig) {
 
 function remCameraFrameUi(cameraId) {
     var cameraFrameDiv = getPageContainer().find('div.camera-frame#camera' + cameraId);
-    cameraFrameDiv.animate({'opacity': 0}, 100, function () {
+    cameraFrameDiv.animate({ 'opacity': 0 }, 100, function () {
         cameraFrameDiv.remove();
     });
 }
 
 function recreateCameraFrames(cameras) {
     function updateCameras(cameras) {
-        cameras = cameras.filter(function (camera) {return camera.enabled;});
+        cameras = cameras.filter(function (camera) { return camera.enabled; });
         var i, camera;
 
         /* remove everything on the page */
@@ -5115,9 +5143,9 @@ function recreateCameraFrames(cameras) {
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' +
-                    '<a href="javascript:runAddCameraDialog()">' +
-                    i18n.gettext('Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...') +
-                    '</a></div>');
+                '<a href="javascript:runAddCameraDialog()">' +
+                i18n.gettext('Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...') +
+                '</a></div>');
             getPageContainer().append(addCameraLink);
         }
     }
@@ -5183,14 +5211,14 @@ function doFullScreenCamera(cameraId) {
     /* try to make browser window full screen */
     var element = document.documentElement;
     var requestFullScreen = (
-            element.requestFullscreen ||
-            element.requestFullScreen ||
-            element.webkitRequestFullscreen ||
-            element.webkitRequestFullScreen ||
-            element.mozRequestFullscreen ||
-            element.mozRequestFullScreen ||
-            element.msRequestFullscreen ||
-            element.msRequestFullScreen);
+        element.requestFullscreen ||
+        element.requestFullScreen ||
+        element.webkitRequestFullscreen ||
+        element.webkitRequestFullScreen ||
+        element.mozRequestFullscreen ||
+        element.mozRequestFullScreen ||
+        element.msRequestFullscreen ||
+        element.msRequestFullScreen);
 
     if (requestFullScreen) {
         requestFullScreen.call(element);
@@ -5246,8 +5274,8 @@ function doExitSingleViewCamera() {
         return; /* no current single-view camera */
     }
     getCameraFrames().
-            removeClass('single-cam-hidden').
-            css('height', '');
+        removeClass('single-cam-hidden').
+        css('height', '');
 
     var cameraFrame = getCameraFrame(singleViewCameraId);
     var pageContainer = getPageContainer();
@@ -5444,14 +5472,14 @@ function checkCameraErrors() {
 }
 
 function doAuth() {
-    ajax('GET', basePath + "login/", null, function() {
+    ajax('GET', basePath + "login/", null, function () {
         if (!frame) {
             fetchCurrentConfig(endProgress);
         }
     });
 }
 
-    /* startup function */
+/* startup function */
 
 $(document).ready(function () {
     modalContainer = $('div.modal-container');
@@ -5483,7 +5511,7 @@ $(document).ready(function () {
     initUI();
     beginProgress();
 
-    if(isAuthCookiesSet()) {
+    if (isAuthCookiesSet()) {
         doAuth();
     } else {
         runLoginDialog(function () {
@@ -5499,7 +5527,7 @@ $(document).ready(function () {
         updateLayout();
     });
 
-    document.addEventListener('fullscreenchange', function() {
+    document.addEventListener('fullscreenchange', function () {
         if (!isBrowserFullScreen()) {
             // Fullscreen mode end via browser controls
             doExitFullScreenCamera(wasInSingleModeBeforeFullScreen);
