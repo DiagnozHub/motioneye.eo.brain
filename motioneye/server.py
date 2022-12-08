@@ -43,6 +43,8 @@ from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
 from motioneye.handlers.update import UpdateHandler
 from motioneye.handlers.version import VersionHandler
+from motioneye.handlers.cpu import CPUHandler
+
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -223,6 +225,7 @@ handler_mapping = [
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
     (r'^/version/?$', VersionHandler),
     (r'^/login/?$', LoginHandler),
+    (r'^/cpu/usage/?$', CPUHandler),
     (r'^.*$', NotFoundHandler),
 ]
 
